@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chord-Transformer Music</title>
-    <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.5.0"></script>    <style>
+    <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.5.0"></script>    
+    <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             line-height: 1.6;
@@ -180,6 +181,64 @@
             color: #666;
             font-style: italic;
         }
+
+        /* Custom player style for all sections */
+        .music-section midi-player {
+          display: block;
+          width: inherit;
+          margin: 4px;
+          margin-bottom: 0;
+        }
+
+        .music-section midi-player::part(control-panel) {
+          background: #e9e9e9;
+          border: 2px solid gray;
+          border-radius: 10px 10px 0 0;
+        }
+
+        .music-section midi-player::part(play-button) {
+          color: #353;
+          border: 2px solid currentColor;
+          background-color: #b6c9cf;
+          border-radius: 20px;
+          transition: all 0.2s;
+        }
+
+        .music-section midi-player::part(play-button):hover {
+          color: #f0f0f0;
+          background-color: #5f5;
+          border-radius: 10px;
+        }
+
+        .music-section midi-player::part(time) {
+          font-family: monospace;
+        }
+
+        /* Custom visualizer style for all sections */
+        .music-section midi-visualizer .piano-roll-visualizer {
+          background: #f4faff;
+          border: 2px solid gray;
+          border-top: none;
+          border-radius: 0 0 10px 10px;
+          margin: 4px;
+          margin-top: 0;
+          overflow: auto;
+        }
+
+        .music-section midi-visualizer svg rect.note {
+          opacity: 0.6;
+          stroke-width: 2;
+        }
+
+        .music-section midi-visualizer svg rect.note {
+          fill: #537790;
+        }
+        
+        .music-section midi-visualizer svg rect.note.active {
+          opacity: 0.9;
+          stroke: #000;
+        }
+
     </style>
 </head>
 <body>
@@ -187,111 +246,107 @@
         <h1>Chord-Transformer Music Generation</h1>
         
         <div class="authors">
-            </a>
         </div>
 
         <h2>Abstract</h2>
-        <p>Transformer-based music generation models are increasingly becoming a vital approach for music composition and editing. Current music generation models face a main challenge in lacking effective structural control mechanisms, making it difficult to maintain harmonic coherence and structural integrity in generated music. This paper presents the Chord-Transformer architecture, which uses chord progression sequences as high-level semantic features to guide the music generation process. Our method first applies an energy-based dynamic programming algorithm to extract chord progression sequences from given chord sequences, then uses these as structural constraints combined with Transformer architecture to achieve autoregressive generation from chords to music. To enhance the model’s ability to capture musical structure, we design a chord-aligned positional encoding scheme and introduce a fusion module that combines cross-attention for chord progression sequences with self-attention for music sequences. This mechanism strengthens collaborative modeling of local and global chord contexts, effectively improving harmonic consistency and structural integrity of generated music. Experimental results show that compared to baseline models, our proposed Chord-Transformer achieves significant improvements in key metrics including scale consistency, polyphonic quality, and user preference scores.
+        <p>Transformer-based music generation models are increasingly becoming a vital approach for music composition and editing. Current music generation models face a main challenge in lacking effective structural control mechanisms, making it difficult to maintain harmonic coherence and structural integrity in generated music. This paper presents the Chord-Transformer architecture, which uses chord progression sequences as high-level semantic features to guide the music generation process. Our method first applies an energy-based dynamic programming algorithm to extract chord progression sequences from given chord sequences, then uses these as structural constraints combined with Transformer architecture to achieve autoregressive generation from chords to music. To enhance the model's ability to capture musical structure, we design a chord-aligned positional encoding scheme and introduce a fusion module that combines cross-attention for chord progression sequences with self-attention for music sequences. This mechanism strengthens collaborative modeling of local and global chord contexts, effectively improving harmonic consistency and structural integrity of generated music. Experimental results show that compared to baseline models, our proposed Chord-Transformer achieves significant improvements in key metrics including scale consistency, polyphonic quality, and user preference scores.
 </p>
 
         <h2>Demo</h2>
-        <p>Here are some comparative examples to demonstrate that our model is closer to real music in terms of music theory and auditory perception.
-          
-</p>
+        <p>Here are some comparative examples to demonstrate that our model is closer to real music in terms of music theory and auditory perception.</p>
 
-
-        <section id="section3">
+        <section id="chord-pop909" class="music-section">
         <h2 class="category-header"> Chord-Transformer(POP909)</h2>
         <midi-player
           src="https://dongxingao.github.io/music_demo/pop909_chord.mid"
-          sound-font visualizer="#section3 midi-visualizer">
+          sound-font visualizer="#chord-pop909 midi-visualizer">
         </midi-player>
         <midi-visualizer
+          type="piano-roll"
           src="https://dongxingao.github.io/music_demo/pop909_chord.mid">
         </midi-visualizer>
         </section>
       
-        <section id="section3">
+        <section id="chord-lmd" class="music-section">
         <h2 class="category-header"> Chord-Transformer(LMD)</h2>
         <midi-player
           src="https://dongxingao.github.io/music_demo/chord_LMD.mid"
-          sound-font visualizer="#section3 midi-visualizer">
+          sound-font visualizer="#chord-lmd midi-visualizer">
         </midi-player>
         <midi-visualizer
+          type="piano-roll"
           src="https://dongxingao.github.io/music_demo/chord_LMD.mid">
         </midi-visualizer>
         </section>
 
-
         <p>Our Chord-Transformer demonstrates excellent overall performance, with various metrics approaching that of real music. Notably, the model excels in structural consistency and scale accuracy, while maintaining good melodic coherence and harmonic complexity. This proves the model's strong generalization capability.</p>
  
-        <section id="section3">
+        <section id="figaro-section" class="music-section">
         <h2 class="category-header"> Figaro</h2>
         <midi-player
           src="https://dongxingao.github.io/music_demo/figaro.mid"
-          sound-font visualizer="#section3 midi-visualizer">
+          sound-font visualizer="#figaro-section midi-visualizer">
         </midi-player>
         <midi-visualizer
+          type="piano-roll"
           src="https://dongxingao.github.io/music_demo/figaro.mid">
         </midi-visualizer>
         </section>
         <p>Although Figaro shows some strength in melodic complexity, its weaknesses are quite apparent. It has a relatively high blank ratio, poor scale accuracy, and limited harmonic depth. Overall, its stability leaves much to be desired.</p>
-      
 
-        <section id="section3">
+        <section id="music-transformer-section" class="music-section">
         <h2 class="category-header"> Music-Transformer</h2>
         <midi-player
           src="https://dongxingao.github.io/music_demo/musictransformer034.mid"
-          sound-font visualizer="#section3 midi-visualizer">
+          sound-font visualizer="#music-transformer-section midi-visualizer">
         </midi-player>
         <midi-visualizer
+          type="piano-roll"
           src="https://dongxingao.github.io/music_demo/musictransformer034.mid">
         </midi-visualizer>
         </section>
         <p>As an early music generation model, Music Transformer has limited baseline performance and exhibits relatively conservative results across various metrics. It lacks melodic richness, has suboptimal structural consistency, and its harmonic layers are relatively simple. Overall, the generation quality needs improvement.</p>
 
-        <section id="section3">
+        <section id="theme-transformer-section" class="music-section">
         <h2 class="category-header"> Theme-Transformer</h2>
         <midi-player
           src="https://dongxingao.github.io/music_demo/themetransformer874_gen.mid"
-          sound-font visualizer="#section3 midi-visualizer">
+          sound-font visualizer="#theme-transformer-section midi-visualizer">
         </midi-player>
         <midi-visualizer
+          type="piano-roll"
           src="https://dongxingao.github.io/music_demo/themetransformer874_gen.mid">
         </midi-visualizer>
         </section>
-        <p>Theme Transformer performs decently across most metrics, showing improvements over Music Transformer. Its structural consistency is acceptable, but it lacks innovation in melody. The harmonic complexity is average, with no groundbreaking advancements.
-</p>
-      
+        <p>Theme Transformer performs decently across most metrics, showing improvements over Music Transformer. Its structural consistency is acceptable, but it lacks innovation in melody. The harmonic complexity is average, with no groundbreaking advancements.</p>
 
-      
         <div class="category-header">Ground-Truth</div>
+
+        <section id="pop909-ground-truth" class="music-section">
         <h2>POP909</h2>
-        <section id="section3">
         <midi-player
           src="https://dongxingao.github.io/music_demo/pop909_022.mid"
-          sound-font visualizer="#section3 midi-visualizer">
+          sound-font visualizer="#pop909-ground-truth midi-visualizer">
         </midi-player>
         <midi-visualizer
+          type="piano-roll"
           src="https://dongxingao.github.io/music_demo/pop909_022.mid">
         </midi-visualizer>
         </section>
-        <section id="section3">
+
+        <section id="lmd-ground-truth" class="music-section">
         <h2>LMD</h2>
         <midi-player
           src="https://dongxingao.github.io/music_demo/lmddatabase.mid"
-          sound-font visualizer="#section3 midi-visualizer">
+          sound-font visualizer="#lmd-ground-truth midi-visualizer">
         </midi-player>
         <midi-visualizer
+          type="piano-roll"
           src="https://dongxingao.github.io/music_demo/lmddatabase.mid">
         </midi-visualizer>
         </section>
       
         <p>Our Chord-Transformer achieves a balanced development of both metrics and auditory perception while maintaining high-quality music generation, offering a clear advantage over other models.</p>
-
-
-
-        <div id="more-examples-demos"></div>
 
         <div class="footer">
             Thanks <a href="https://cifkao.github.io/html-midi-player/">html-midi-player</a> for the excellent MIDI visualization.
@@ -354,26 +409,6 @@
                     description: 'Left hand quarter notes, right hand Alberti pattern',
                     url: 'https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3'
                 }
-            ],
-            moreExamples: [
-                {
-                    id: 'ex-1',
-                    title: 'Example: i4A4A4B8b4A4B8o4',
-                    description: 'Lead melody and piano accompaniment',
-                    url: 'https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3'
-                },
-                {
-                    id: 'ex-2',
-                    title: 'Example: A8B8A8B8B8',
-                    description: 'Lead melody and piano accompaniment',
-                    url: 'https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3'
-                },
-                {
-                    id: 'ex-3',
-                    title: 'Example: i4A4B4b8A4B4o4',
-                    description: 'Lead melody and piano accompaniment',
-                    url: 'https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3'
-                }
             ]
         };
 
@@ -393,26 +428,29 @@
         }
 
         function loadDemos() {
-            // 主要示例
-            document.getElementById('demo-container').innerHTML = 
-                demoData.main.map(createDemoItem).join('');
+            // 如果存在这些容器，则加载demos
+            const containers = ['demo-container', 'reduced-leadsheet-demos', 'leadsheet-demos', 'accompaniment-demos', 'more-examples-demos'];
+            
+            containers.forEach(containerId => {
+                const container = document.getElementById(containerId);
+                if (container) {
+                    // 根据容器ID加载对应的数据
+                    let data = [];
+                    if (containerId === 'demo-container') data = demoData.main;
+                    else if (containerId === 'reduced-leadsheet-demos') data = demoData.reducedLeadsheet;
+                    else if (containerId === 'leadsheet-demos') data = demoData.leadsheet;
+                    else if (containerId === 'accompaniment-demos') data = demoData.accompaniment;
+                    else if (containerId === 'more-examples-demos') data = demoData.moreExamples;
+                    
+                    container.innerHTML = data.map(createDemoItem).join('');
+                }
+            });
 
-            // 分类示例
-            document.getElementById('reduced-leadsheet-demos').innerHTML = 
-                demoData.reducedLeadsheet.map(createDemoItem).join('');
-            
-            document.getElementById('leadsheet-demos').innerHTML = 
-                demoData.leadsheet.map(createDemoItem).join('');
-            
-            document.getElementById('accompaniment-demos').innerHTML = 
-                demoData.accompaniment.map(createDemoItem).join('');
-            
-            document.getElementById('more-examples-demos').innerHTML = 
-                demoData.moreExamples.map(createDemoItem).join('');
-
-            // 隐藏加载指示器，显示内容
-            document.getElementById('loading-indicator').style.display = 'none';
-            document.getElementById('demo-container').style.display = 'block';
+            // 隐藏加载指示器
+            const loadingIndicator = document.getElementById('loading-indicator');
+            if (loadingIndicator) {
+                loadingIndicator.style.display = 'none';
+            }
         }
 
         function handlePlay(demoId) {
@@ -508,6 +546,7 @@
 
         // 页面加载完成后初始化
         document.addEventListener('DOMContentLoaded', () => {
+            // 延迟加载demo数据（如果存在相关容器）
             setTimeout(loadDemos, 800);
         });
 
